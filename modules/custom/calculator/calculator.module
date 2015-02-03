@@ -24,7 +24,7 @@ function calculator_form($form, &$form_state) {
 
   $form['first_number'] = array(
     '#type' => 'textfield',
-    '#title' => t('First number'),
+    '#title' => t('Value 1'),
     '#description' => "Please enter your first number.",
     '#required' => TRUE,
     '#size' => 5,
@@ -33,7 +33,7 @@ function calculator_form($form, &$form_state) {
 
     $form['second_number'] = array(
     '#type' => 'textfield',
-    '#title' => t('Second number'),
+    '#title' => t('Value 2'),
     '#description' => "Please enter your second number.",
     '#required' => TRUE,
     '#size' => 5,
@@ -42,28 +42,28 @@ function calculator_form($form, &$form_state) {
 
   $form['submit_add'] = array(
     '#type' => 'submit',
-    '#value' => '+',
+    '#value' => t('Sum'),
     '#submit' => array('calculator_form_addition_submit'),
     '#validate' => array('calculator_form_validate'),
   );
 
     $form['submit_multiply'] = array(
     '#type' => 'submit',
-    '#value' => 'x',
+    '#value' => t('Product'),
     '#submit' => array('calculator_form_multiply_submit'),
     '#validate' => array('calculator_form_validate'),
  );
 
         $form['submit_substraction'] = array(
     '#type' => 'submit',
-    '#value' => '-',
+    '#value' => t('Subtraction'),
     '#submit' => array('calculator_form_substraction_submit'),
     '#validate' => array('calculator_form_validate'),
  );
 
         $form['submit_division'] = array(
     '#type' => 'submit',
-    '#value' => '/',
+    '#value' => t('Division'),
     '#submit' => array('calculator_form_division_submit'),
     '#validate' => array('calculator_form_validate'),
  );
