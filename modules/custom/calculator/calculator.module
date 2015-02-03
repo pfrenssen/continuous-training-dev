@@ -105,9 +105,9 @@ function calculator_form_validate($form, &$form_state) {
     $first_number = $form_state['values']['first_number'];
     $second_number = $form_state['values']['second_number'];
     if (!empty($first_number) && !is_numeric($first_number)) {
-        form_set_error('first', 'Only enter numeric values');
+        form_set_error('first', 'Only enter numeric values.');
     }
     if (!empty($second_number) && !is_numeric($second_number)) {
-        form_set_error('second', 'Only enter numeric values');
+        form_set_error('second', 'Only enter numeric values.');
     }
 }
