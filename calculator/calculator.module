@@ -1,0 +1,115 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+
+function calculator_menu() {
+  $items = array();
+  $items['calculator'] = array(
+    'title' => t('Calculator'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('calculator_form'),
+    'access arguments' => array('access content'),
+    'description' => t('Perform calculation between entered fields'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_form().
+ */
+function calculator_form($form, &$form_state) {
+
+  $form['first_number'] = array(
+    '#type' => 'textfield',
+    '#title' => t('First number'),
+    '#description' => "Please enter your first number.",
+    '#required' => TRUE,
+    '#size' => 5,
+    '#maxlength' => 5,
+     );
+
+    $form['second_number'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Second number'),
+    '#description' => "Please enter your second number.",
+    '#required' => TRUE,
+    '#size' => 5,
+    '#maxlength' => 5,
+   );
+
+  $form['submit_add'] = array(
+    '#type' => 'submit',
+    '#value' => '+',
+    '#submit' => array('calculator_form_addition_submit'),
+    '#validate' => array('calculator_form_validate'),
+  );
+
+    $form['submit_multiply'] = array(
+    '#type' => 'submit',
+    '#value' => 'x',
+    '#submit' => array('calculator_form_multiply_submit'),
+    '#validate' => array('calculator_form_validate'),
+ );
+
+        $form['submit_substraction'] = array(
+    '#type' => 'submit',
+    '#value' => '-',
+    '#submit' => array('calculator_form_substraction_submit'),
+    '#validate' => array('calculator_form_validate'),
+ );
+
+        $form['submit_division'] = array(
+    '#type' => 'submit',
+    '#value' => '/',
+    '#submit' => array('calculator_form_division_submit'),
+    '#validate' => array('calculator_form_validate'),
+ );
+
+  
+  return $form;
+}
+
+function calculator_form_addition_submit($form, &$form_state) {
+
+    $total = $form_state['values']['first_number'] + $form_state['values']['second_number'];
+    drupal_set_message(t('The result is @total', array('@total' => $total)));
+
+}
+
+function calculator_form_multiply_submit($form, &$form_state) {
+
+    $total = $form_state['values']['first_number'] * $form_state['values']['second_number'];
+    drupal_set_message(t('The result is @total', array('@total' => $total)));
+
+}
+
+function calculator_form_division_submit($form, &$form_state) {
+
+    $total = $form_state['values']['first_number'] / $form_state['values']['second_number'];
+    drupal_set_message(t('The result is @total', array('@total' => $total)));
+
+}
+
+function calculator_form_substraction_submit($form, &$form_state) {
+
+    $total = $form_state['values']['first_number'] - $form_state['values']['second_number'];
+    drupal_set_message(t('The result is @total', array('@total' => $total)));
+
+}
+
+function calculator_form_validate($form, &$form_state) {
+
+$first_number = $form_state['values']['first_number'];
+$second_number = $form_state['values']['second_number'];
+if (!$first_number || !is_numeric($first_number)) {
+        form_set_error('first', 'Only enter numeric values');
+    }
+if (!$second_number || !is_numeric($second_number)) {
+        form_set_error('second', 'Only enter numeric values');
+    }
+
+}
+
