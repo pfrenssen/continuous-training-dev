@@ -1,9 +1,32 @@
 {
   "require": {
-    "behat/behat": "3.0.*@stable",
-    "drupal/drupal-extension": "~3.0"
+    "continuousphp/drupal-base-build": "dev-develop"
   },
-  "minimum-stability": "stable",
+  "require-dev": {
+     "drupal/drupal-extension": "~3.0"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "drupal/phing-drush-task",
+        "version": "1.0",
+        "source": {
+          "url": "http://git.drupal.org/project/phingdrushtask.git",
+          "type": "git",
+          "reference": "7.x-1.0"
+        }
+      }
+    }
+  ],
+  "scripts": {
+    "post-update-cmd": [
+      "Continuousphp\\Drupal::createBuild"
+    ],
+    "post-install-cmd": [
+      "Continuousphp\\Drupal::createBuild"
+    ]
+  },
   "config": {
     "bin-dir": "bin/"
   }
