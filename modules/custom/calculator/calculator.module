@@ -34,53 +34,42 @@ function calculator_menu() {
  * @ingroup forms
  */
 function calculator_form($form, &$form_state) {
+  $form = array();
+  $form['#tree'] = TRUE;
 
-  $form['first_number'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Value 1'),
-    '#description' => "Please enter your first number.",
-    '#required' => TRUE,
-    '#size' => 5,
-    '#maxlength' => 5,
-     );
-
-  $form['second_number'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Value 2'),
-    '#description' => "Please enter your second number.",
-    '#required' => TRUE,
-    '#size' => 5,
-    '#maxlength' => 5,
-   );
-
-  $form['submit_add'] = array(
-    '#type' => 'submit',
-    '#value' => t('Sum'),
-    '#submit' => array('calculator_form_addition_submit'),
-    '#validate' => array('calculator_form_validate'),
+  // Value fields.
+  $fields = array(
+    '1' => t('Value 1'),
+    '2' => t('Value 2'),
   );
 
-  $form['submit_multiply'] = array(
-    '#type' => 'submit',
-    '#value' => t('Product'),
-    '#submit' => array('calculator_form_multiply_submit'),
-    '#validate' => array('calculator_form_validate'),
- );
+  foreach ($fields as $machine_name => $title) {
+    $form['values'][$machine_name] = array(
+      '#type' => 'textfield',
+      '#title' => $title,
+      '#description' => t('Please enter your number.'),
+      '#required' => FALSE,
+      '#size' => 10,
+      '#maxlength' => 10,
+    );
+  }
 
-  $form['submit_substraction'] = array(
-    '#type' => 'submit',
-    '#value' => t('Subtraction'),
-    '#submit' => array('calculator_form_substraction_submit'),
-    '#validate' => array('calculator_form_validate'),
- );
+  // Submit buttons.
+  $buttons = array(
+    'addition' => t('Sum'),
+    'multiplication' => t('Product'),
+    'subtraction' => t('Subtraction'),
+    'division' => t('Division'),
+  );
 
-  $form['submit_division'] = array(
-    '#type' => 'submit',
-    '#value' => t('Division'),
-    '#submit' => array('calculator_form_division_submit'),
-    '#validate' => array('calculator_form_validate'),
- );
-
+  foreach ($buttons as $machine_name => $label) {
+    $form['submit'][$machine_name] = array(
+      '#type' => 'submit',
+      '#value' => $label,
+      '#submit' => array("calculator_form_${machine_name}_submit"),
+      '#validate' => array('calculator_form_validate'),
+    );
+  }
   
   return $form;
 }
@@ -91,10 +80,9 @@ function calculator_form($form, &$form_state) {
  * Fires when the 'addition' submit button is pressed.
  */
 function calculator_form_addition_submit($form, &$form_state) {
+  $result = array_sum(calculator_form_get_values($form_state));
 
-    $total = $form_state['values']['first_number'] + $form_state['values']['second_number'];
-    drupal_set_message(t('The result is @total', array('@total' => $total)));
-
+  calculator_output_result($result);
 }
 
 /**
@@ -102,11 +90,10 @@ function calculator_form_addition_submit($form, &$form_state) {
  *
  * Fires when the 'multiplication' submit button is pressed.
  */
-function calculator_form_multiply_submit($form, &$form_state) {
+function calculator_form_multiplication_submit($form, &$form_state) {
+  $result = array_product(calculator_form_get_values($form_state));
 
-    $total = $form_state['values']['first_number'] * $form_state['values']['second_number'];
-    drupal_set_message(t('The result is @total', array('@total' => $total)));
-
+  calculator_output_result($result);
 }
 
 /**
@@ -115,10 +102,14 @@ function calculator_form_multiply_submit($form, &$form_state) {
  * Fires when the 'division' submit button is pressed.
  */
 function calculator_form_division_submit($form, &$form_state) {
+  $values = calculator_form_get_values($form_state);
+  $first_value = array_shift($values);
 
-    $total = $form_state['values']['first_number'] / $form_state['values']['second_number'];
-    drupal_set_message(t('The result is @total', array('@total' => $total)));
+  $result = array_reduce($values, function ($carry, $item) {
+    return $carry / $item;
+  }, $first_value);
 
+  calculator_output_result($result);
 }
 
 /**
@@ -126,24 +117,51 @@ function calculator_form_division_submit($form, &$form_state) {
  *
  * Fires when the 'subtraction' submit button is pressed.
  */
-function calculator_form_substraction_submit($form, &$form_state) {
+function calculator_form_subtraction_submit($form, &$form_state) {
+  $values = calculator_form_get_values($form_state);
+  $first_value = array_shift($values);
 
-    $total = $form_state['values']['first_number'] - $form_state['values']['second_number'];
-    drupal_set_message(t('The result is @total', array('@total' => $total)));
+  $result = array_reduce($values, function ($carry, $item) {
+    return $carry - $item;
+  }, $first_value);
 
+  calculator_output_result($result);
 }
 
 /**
  * Form validation handler for calculator_form().
  */
 function calculator_form_validate($form, &$form_state) {
+  $values = calculator_form_get_values($form_state);
 
-    $first_number = $form_state['values']['first_number'];
-    $second_number = $form_state['values']['second_number'];
-    if (!empty($first_number) && !is_numeric($first_number)) {
-        form_set_error('first', 'Only enter numeric values.');
+  // Check that the values are numeric.
+  foreach ($values as $key => $value) {
+    if (!empty($value) && !is_numeric($value)) {
+      form_set_error('values][' . $key, 'Only enter numeric values.');
     }
-    if (!empty($second_number) && !is_numeric($second_number)) {
-        form_set_error('second', 'Only enter numeric values.');
-    }
+  }
+}
+
+/**
+ * Returns the values that were submitted in the calculator form.
+ *
+ * @param array $form_state
+ *   The form state that contains the values.
+ *
+ * @return array
+ *   The submitted values, keyed by field machine name.
+ */
+function calculator_form_get_values($form_state) {
+  return $form_state['values']['values'];
+}
+
+/**
+ * Prints out the result of the calculation.
+ *
+ * @param int|float $result
+ *   The result of the calculation that should be printed out.
+ */
+function calculator_output_result($result) {
+  $result = round($result, 2);
+  drupal_set_message(t('The result is @result', array('@result' => $result)));
 }
