@@ -31,4 +31,4 @@ Scenario Outline: Validate incorrect input
     | <a>   | Value 1 | Division    |
     | ☢     | Value 2 | Subtraction |
     | -1.1. | Value 2 | Sum         |
-    | 2(0)  | Value 2 | Product     |
+    | 2+2   | Value 2 | Product     |
