@@ -140,6 +140,18 @@ function calculator_form_validate($form, &$form_state) {
       form_set_error('values][' . $key, 'Only enter numeric values.');
     }
   }
+
+  // Check that we are not dividing by zero.
+  if (in_array('calculator_form_division_submit', $form_state['triggering_element']['#submit'])) {
+    // Only the first value can be zero, all other can't. Remove the first
+    // value and check the others.
+    array_shift($values);
+    foreach ($values as $key => $value) {
+      if (!$value) {
+        form_set_error('values][' . $key, 'Division by zero is not allowed.');
+      }
+    }
+  }
 }
 
 /**

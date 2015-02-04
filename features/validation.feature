@@ -32,3 +32,10 @@ Scenario Outline: Validate incorrect input
     | ☢     | Value 2 | Subtraction |
     | -1.1. | Value 2 | Sum         |
     | 2+2   | Value 2 | Product     |
+
+Scenario: Validate division by zero
+  Given I am on the calculator page
+  When I enter "100" for "Value 1"
+  And I enter "0" for "Value 2"
+  And I press "Division"
+  Then I should see the error message "Division by zero is not allowed."
