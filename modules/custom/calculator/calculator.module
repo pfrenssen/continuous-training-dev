@@ -1,8 +1,13 @@
 <?php
+
+/**
+ * @file
+ * Main functions and hook implementations of the Calculator module.
+ */
+
 /**
  * Implements hook_menu().
  */
-
 function calculator_menu() {
   $items = array();
   $items['calculator'] = array(
@@ -18,7 +23,15 @@ function calculator_menu() {
 
 
 /**
- * Implements hook_form().
+ * Form constructor for the Calculator form.
+ *
+ * @see calculator_form_validate()
+ * @see calculator_form_add_submit()
+ * @see calculator_form_division_submit()
+ * @see calculator_form_multiplication_submit()
+ * @see calculator_form_subtraction_submit()
+ *
+ * @ingroup forms
  */
 function calculator_form($form, &$form_state) {
 
@@ -72,6 +85,11 @@ function calculator_form($form, &$form_state) {
   return $form;
 }
 
+/**
+ * Form submission handler for calculator_form().
+ *
+ * Fires when the 'addition' submit button is pressed.
+ */
 function calculator_form_addition_submit($form, &$form_state) {
 
     $total = $form_state['values']['first_number'] + $form_state['values']['second_number'];
@@ -79,6 +97,11 @@ function calculator_form_addition_submit($form, &$form_state) {
 
 }
 
+/**
+ * Form submission handler for calculator_form().
+ *
+ * Fires when the 'multiplication' submit button is pressed.
+ */
 function calculator_form_multiply_submit($form, &$form_state) {
 
     $total = $form_state['values']['first_number'] * $form_state['values']['second_number'];
@@ -86,6 +109,11 @@ function calculator_form_multiply_submit($form, &$form_state) {
 
 }
 
+/**
+ * Form submission handler for calculator_form().
+ *
+ * Fires when the 'division' submit button is pressed.
+ */
 function calculator_form_division_submit($form, &$form_state) {
 
     $total = $form_state['values']['first_number'] / $form_state['values']['second_number'];
@@ -93,6 +121,11 @@ function calculator_form_division_submit($form, &$form_state) {
 
 }
 
+/**
+ * Form submission handler for calculator_form().
+ *
+ * Fires when the 'subtraction' submit button is pressed.
+ */
 function calculator_form_substraction_submit($form, &$form_state) {
 
     $total = $form_state['values']['first_number'] - $form_state['values']['second_number'];
@@ -100,6 +133,9 @@ function calculator_form_substraction_submit($form, &$form_state) {
 
 }
 
+/**
+ * Form validation handler for calculator_form().
+ */
 function calculator_form_validate($form, &$form_state) {
 
     $first_number = $form_state['values']['first_number'];
