@@ -18,9 +18,9 @@ function calculator_menu() {
     'description' => t('Perform basic calculations.'),
     'type' => MENU_NORMAL_ITEM,
   );
+
   return $items;
 }
-
 
 /**
  * Form constructor for the Calculator form.
