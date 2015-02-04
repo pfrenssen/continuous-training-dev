@@ -15,7 +15,7 @@ function calculator_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('calculator_form'),
     'access arguments' => array('access content'),
-    'description' => t('Perform calculation between entered fields'),
+    'description' => t('Perform basic calculations.'),
     'type' => MENU_NORMAL_ITEM,
   );
   return $items;
