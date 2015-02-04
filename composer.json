@@ -3,7 +3,7 @@
     "continuousphp/drupal-base-build": "dev-develop"
   },
   "require-dev": {
-     "drupal/drupal-extension": "~3.0"
+    "drupal/drupal-extension": "~3.0"
   },
   "repositories": [
     {
