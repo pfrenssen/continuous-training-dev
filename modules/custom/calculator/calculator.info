@@ -2,4 +2,3 @@ name = Calculator
 description = Demonstrates continuous php.
 package = Continuous PHP
 core = 7.x
-files[] = calculator.test

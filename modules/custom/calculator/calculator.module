@@ -11,11 +11,11 @@
 function calculator_menu() {
   $items = array();
   $items['calculator'] = array(
-    'title' => t('Calculator'),
+    'title' => 'Calculator',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('calculator_form'),
     'access arguments' => array('access content'),
-    'description' => t('Perform basic calculations.'),
+    'description' => 'Perform basic calculations.',
     'type' => MENU_NORMAL_ITEM,
   );
 
@@ -70,7 +70,7 @@ function calculator_form($form, &$form_state) {
       '#validate' => array('calculator_form_validate'),
     );
   }
-  
+
   return $form;
 }
 
@@ -163,7 +163,7 @@ function calculator_form_validate($form, &$form_state) {
  * @return array
  *   The submitted values, keyed by field machine name.
  */
-function calculator_form_get_values($form_state) {
+function calculator_form_get_values(array $form_state) {
   return $form_state['values']['values'];
 }
 
