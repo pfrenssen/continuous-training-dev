@@ -27,7 +27,7 @@
     <target name="drush-distro" depends="init,generate-distro.make">
         <drush command="make" assume="yes" pipe="true" bin="${drush.bin}">
             <param>${drupal.distro.make.file}</param>
-            <param>${drupal.profile.name}</param>
+            <param>${phing.project.build.dir}</param>
         </drush>
     </target>
 
