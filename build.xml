@@ -30,13 +30,12 @@
             <param>${drupal.profile.name}</param>
         </drush>
     </target>
-    
+
     <!-- Move /modules and /features to /sites/all. -->
     <target name="move-packages" depends="init,generate-distro.make,drush-distro">
 			<move file="modules" todir="${drupal.sites.dir}" includeemptydirs="true" />
 			<move file="features" todir="${drupal.sites.dir}" includeemptydirs="true" />
     </target>
-    
 
     <!-- Make files directory. -->
     <target name="files-directory" depends="init">
