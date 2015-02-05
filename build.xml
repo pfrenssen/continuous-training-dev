@@ -31,10 +31,18 @@
         </drush>
     </target>
 
-    <!-- Move /modules and /features to /sites/all. -->
-    <target name="move-packages" depends="init,generate-distro.make,drush-distro">
-			<move file="modules" todir="${drupal.sites.dir}" includeemptydirs="true" />
-			<move file="features" todir="${drupal.sites.dir}" includeemptydirs="true" />
+    <!-- Copy custom modules. -->
+    <target name="copy-modules" depends="init,generate-distro.make,drush-distro">
+        <copy todir="${drupal.modules.dir}">
+            <fileset dir="modules" />
+        </copy>
+    </target>
+
+    <!-- Copy test files into the build root. -->
+    <target name="copy-tests" depends="init,generate-distro.make,drush-distro">
+        <copy todir="${phing.project.build.dir}">
+            <fileset dir="tests" />
+        </copy>
     </target>
 
     <!-- Make files directory. -->
