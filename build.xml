@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="${drupal.profile.name}" default="help">
+
+    <property file="build.properties"/>
+
+    <target name="help" description="Phing target list">
+        <exec executable="${phing.bin}"
+              passthru="true">
+            <arg value="-l"/>
+        </exec>
+    </target>
+
+    <target name="init">
+        <taskdef name="drush" classname="DrushTask" />
+    </target>
+
+    <!-- Build distro.make. -->
+    <target name="generate-distro.make" depends="init">
+        <echo msg="Generating distro.make from build.properties" />
+        <delete file="distro.make" />
+        <touch file="distro.make" />
+        <append destFile="${project.basedir}/distro.make" text="${drush.distro.template}" />
+    </target>
+
+    <!-- Execute drush make file and download profile. -->
+    <target name="drush-distro" depends="init,generate-distro.make">
+        <drush command="make" assume="yes" pipe="true" bin="${drush.bin}">
+            <param>${drupal.distro.make.file}</param>
+            <param>${drupal.profile.name}</param>
+        </drush>
+    </target>
+
+    <!-- Make files directory. -->
+    <target name="files-directory" depends="init">
+        <mkdir dir="${drupal.files.dir}" />
+        <chmod file="${drupal.files.dir}" mode="0775" failonerror="true" />
+    </target>
+
+    <!-- Manipulate settings.php file. -->
+    <target name="create-settings.php" depends="init">
+        <echo msg="Copying default.settings.php file to settings.php..." />
+        <copy file="${drupal.settings.dir}/default.settings.php" tofile="${drupal.settings.dir}/settings.php" />
+        <chmod file="${drupal.settings.dir}/settings.php" mode="0775" failonerror="true" />
+    </target>
+
+    <!-- install drupal. -->
+    <target name="install-drupal" description="Run the install." depends="init">
+        <drush command="site-install" assume="yes" root="${project.basedir}/${phing.project.name}" bin="${drush.bin}">
+            <param>${phing.project.name}</param>
+            <option name="db-url" value="${drupal.db.url}"/>
+            <option name="site-name" value="${phing.project.name}"/>
+        </drush>
+    </target>
+
+    <target name="build"
+            description="Build the Drupal site in order to install it"
+            depends="init, generate-distro.make, drush-distro, files-directory, create-settings.php"/>
+</project>

@@ -59,6 +59,14 @@
                 "url": "http://git.drupal.org/project/phingdrushtask.git",
                 "reference": "7.x-1.0"
             },
+                "autoload": {
+                    "classmap": [
+                        "DrushTask.php"
+                    ]
+                },
+                "include-path": [
+                    "."
+                ],
             "type": "library"
         },
         {
