@@ -1,0 +1,9 @@
+{
+  "require-dev": {
+    "drupal/coder": "~8.2.0",
+    "drupal/drupal-extension": "~3.0"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}
