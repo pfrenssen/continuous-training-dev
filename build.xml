@@ -81,6 +81,14 @@
         </drush>
     </target>
 
+    <!-- Run behat tests. -->
+    <target name="behat-tests" description="Run behat tests." depends="init">
+        <exec command="export BEHAT_PARAMS=${behat.params} ; ${behat.bin} --config=${behat.yml}"
+              logoutput="true"
+              checkreturn="true"
+              passthru="true" />
+    </target>
+
     <target name="build"
             description="Build the Drupal site in order to install it"
             depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php"/>
@@ -88,4 +96,8 @@
     <target name="install"
             description="Install the Drupal site"
             depends="install-dependencies, install-drupal, enable-drupal-modules" />
+
+    <target name="test"
+            description="Run tests."
+            depends="behat-tests" />
 </project>
