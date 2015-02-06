@@ -59,7 +59,7 @@
     </target>
 
     <!-- Install dependencies. -->
-    <target name="install-dependencies" description="Install dependencies." depends="init">
+    <target name="install-dependencies" description="Install dependencies.">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${project.code.dir}" />
         </composer>
@@ -80,5 +80,5 @@
 
     <target name="install"
             description="Install the Drupal site"
-            depends="install-dependencies, install-drupal" />
+            depends="install-drupal" />
 </project>
