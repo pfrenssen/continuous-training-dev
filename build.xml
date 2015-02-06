@@ -91,7 +91,7 @@
 
     <target name="build"
             description="Build the Drupal site in order to install it"
-            depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php"/>
+            depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php" />
 
     <target name="install"
             description="Install the Drupal site"
