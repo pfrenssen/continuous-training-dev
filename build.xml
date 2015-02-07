@@ -32,6 +32,11 @@
         </drush>
     </target>
 
+    <!-- Link custom modules. -->
+    <target name="link-modules" depends="init,generate-distro.make,drush-distro">
+        <symlink link="${drupal.modules.dir}/custom" target="../../../../modules/custom" />
+    </target>
+
     <!-- Copy custom modules. -->
     <target name="copy-modules" depends="init,generate-distro.make,drush-distro">
         <copy todir="${drupal.modules.dir}">
@@ -39,11 +44,28 @@
         </copy>
     </target>
 
-    <!-- Copy test files into the build root. -->
-    <target name="copy-tests" depends="init,generate-distro.make,drush-distro">
-        <copy todir="${phing.project.build.dir}">
-            <fileset dir="tests" />
-        </copy>
+    <!-- Link test files into the build root. -->
+    <target name="link-tests" depends="init,generate-distro.make,drush-distro">
+        <if>
+            <not>
+                <available file="${project.basedir}/tests/behat.yml" type="file" />
+            </not>
+            <then>
+                <echo message="Creating behat.yml config file" />
+                <loadfile property="behat.yml" file="${project.basedir}/tests/behat.yml.dist">
+                    <filterchain>
+                        <replacetokens>
+                            <token key="project.code.dir" value="${project.code.dir}" />
+                            <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                            <token key="behat.base_url" value="${behat.base_url}" />
+                        </replacetokens>
+                    </filterchain>
+                </loadfile>
+                <echo message="${behat.yml}" file="${project.basedir}/tests/behat.yml" />
+            </then>
+        </if>
+        <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
+        <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
     </target>
 
     <!-- Make files directory. -->
@@ -84,15 +106,20 @@
 
     <!-- Run behat tests. -->
     <target name="behat-tests" description="Run behat tests." depends="init">
-        <exec command="export BEHAT_PARAMS=${behat.params} ; ${behat.bin} --config=${behat.yml}"
+        <exec command="${behat.bin}"
               logoutput="true"
               checkreturn="true"
+              dir="${project.code.dir}"
               passthru="true" />
     </target>
 
-    <target name="build"
+    <target name="build-dev"
+            description="Build a local Drupal site in order to dev"
+            depends="init, generate-distro.make, drush-distro, link-modules, link-tests, files-directory, create-settings.php" />
+
+    <target name="build-dist"
             description="Build the Drupal site in order to install it"
-            depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php" />
+            depends="init, generate-distro.make, drush-distro, copy-modules, files-directory, create-settings.php" />
 
     <target name="install"
             description="Install the Drupal site"

@@ -1,6 +1,7 @@
 {
   "require": {
-    "continuousphp/drupal-base-build": "dev-develop"
+    "continuousphp/drupal-base-build": "dev-develop",
+    "drupal/drupal-extension": "~3.0"
   },
   "scripts": {
     "post-update-cmd": [
