@@ -44,6 +44,10 @@
         </copy>
     </target>
 
+    <target name="link-docroot" description="Link site document root to Apache document root">
+        <symlink link="${server.docroot}" target="${project.code.dir}" overwrite="true" />
+    </target>
+
     <!-- Link test files into the build root. -->
     <target name="link-tests" depends="init,generate-distro.make,drush-distro">
         <if>
