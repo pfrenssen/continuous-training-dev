@@ -80,27 +80,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/continuousphp/drupal-base-build.git",
-                "reference": "3db938a034b38dd143b8d5d70151244a7512c454"
+                "reference": "0daa6b9a2fb78109203f4bb5d4ebbadf375192e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/continuousphp/drupal-base-build/zipball/3db938a034b38dd143b8d5d70151244a7512c454",
-                "reference": "3db938a034b38dd143b8d5d70151244a7512c454",
+                "url": "https://api.github.com/repos/continuousphp/drupal-base-build/zipball/0daa6b9a2fb78109203f4bb5d4ebbadf375192e4",
+                "reference": "0daa6b9a2fb78109203f4bb5d4ebbadf375192e4",
                 "shasum": ""
             },
             "require": {
-                "drupal/phing-drush-task": "~1.0",
-                "drush/drush": "~6.5",
-                "phing/phing": "~2.9"
-            },
-            "require-dev": {
-                "composer/composer": "dev-master"
+                "continuousphp/phing-drush-task": "~1.0"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "vendor/drupal/phing-drush-task/DrushTask.php"
-                ],
                 "psr-0": {
                     "Continuousphp\\": "src/"
                 }
@@ -117,25 +109,45 @@
             ],
             "description": "Drupal base Phing build for continuousphp",
             "homepage": "https://github.com/continuousphp/drupal-base-build",
-            "time": "2015-02-03 13:00:50"
+            "time": "2015-02-07 10:10:56"
         },
         {
-            "name": "drupal/phing-drush-task",
+            "name": "continuousphp/phing-drush-task",
             "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "http://git.drupal.org/project/phingdrushtask.git",
-                "reference": "7.x-1.0"
+                "url": "https://github.com/continuousphp/phing-drush-task.git",
+                "reference": "ae7ea303ca0b549357dd761b06252b186c40403e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/continuousphp/phing-drush-task/zipball/ae7ea303ca0b549357dd761b06252b186c40403e",
+                "reference": "ae7ea303ca0b549357dd761b06252b186c40403e",
+                "shasum": ""
+            },
+            "require": {
+                "drush/drush": "~6.5",
+                "phing/phing": "~2.9"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "DrushTask.php"
-                ]
+                "psr-0": {
+                    "Drush\\": "src/"
+                }
             },
-            "include-path": [
-                "."
-            ]
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frederic Dewinne",
+                    "email": "frederic@continuousphp.com"
+                }
+            ],
+            "description": "Drush task for Phing",
+            "homepage": "https://github.com/continuousphp/phing-drush-task",
+            "time": "2015-02-07 09:59:19"
         },
         {
             "name": "drush/drush",

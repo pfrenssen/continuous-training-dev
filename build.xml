@@ -12,7 +12,7 @@
     </target>
 
     <target name="init">
-        <taskdef name="drush" classname="DrushTask" />
+        <taskdef name="drush" classname="Drush\Task" />
     </target>
 
     <!-- Build distro.make. -->
@@ -25,6 +25,7 @@
 
     <!-- Execute drush make file and download profile. -->
     <target name="drush-distro" depends="init,generate-distro.make">
+        <delete dir="${phing.project.build.dir}" includeemptydirs="true" />
         <drush command="make" assume="yes" pipe="true" bin="${drush.bin}">
             <param>${drupal.distro.make.file}</param>
             <param>${phing.project.build.dir}</param>
