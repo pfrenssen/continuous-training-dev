@@ -12,7 +12,7 @@
     </target>
 
     <target name="init">
-        <taskdef name="drush" classname="Drush\Task" />
+        <taskdef name="drush" classname="DrushTask" />
     </target>
 
     <!-- Build distro.make. -->
@@ -25,7 +25,6 @@
 
     <!-- Execute drush make file and download profile. -->
     <target name="drush-distro" depends="init,generate-distro.make">
-        <delete dir="${phing.project.build.dir}" includeemptydirs="true" />
         <drush command="make" assume="yes" pipe="true" bin="${drush.bin}">
             <param>${drupal.distro.make.file}</param>
             <param>${phing.project.build.dir}</param>
@@ -60,7 +59,7 @@
     </target>
 
     <!-- Install dependencies. -->
-    <target name="install-dependencies" description="Install dependencies.">
+    <target name="install-dependencies" description="Install dependencies." depends="init">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${project.code.dir}" />
         </composer>
@@ -68,18 +67,37 @@
 
     <!-- Install drupal. -->
     <target name="install-drupal" description="Run the install." depends="init">
-        <drush command="site-install" assume="yes" root="${project.basedir}/${phing.project.name}" bin="${drush.bin}">
-            <!--<param>${phing.project.name}</param>-->
+        <drush command="site-install" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}">
             <option name="db-url" value="${drupal.db.url}"/>
             <option name="site-name" value="${phing.project.name}"/>
+            <param>${drupal.profile.name}</param>
         </drush>
+    </target>
+
+    <!-- Enable modules. -->
+    <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
+        <drush command="pm-enable" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}">
+            <param>calculator</param>
+        </drush>
+    </target>
+
+    <!-- Run behat tests. -->
+    <target name="behat-tests" description="Run behat tests." depends="init">
+        <exec command="export BEHAT_PARAMS=${behat.params} ; ${behat.bin} --config=${behat.yml}"
+              logoutput="true"
+              checkreturn="true"
+              passthru="true" />
     </target>
 
     <target name="build"
             description="Build the Drupal site in order to install it"
-            depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php"/>
+            depends="init, generate-distro.make, drush-distro, copy-modules, copy-tests, files-directory, create-settings.php" />
 
     <target name="install"
             description="Install the Drupal site"
-            depends="install-drupal" />
+            depends="install-dependencies, install-drupal, enable-drupal-modules" />
+
+    <target name="test"
+            description="Run tests."
+            depends="behat-tests" />
 </project>

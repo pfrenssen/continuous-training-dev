@@ -17,14 +17,6 @@
       }
     }
   ],
-  "scripts": {
-    "post-update-cmd": [
-      "Continuousphp\\Drupal::createBuild"
-    ],
-    "post-install-cmd": [
-      "Continuousphp\\Drupal::createBuild"
-    ]
-  },
   "config": {
     "bin-dir": "bin/"
   }
