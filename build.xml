@@ -94,6 +94,7 @@
             <option name="db-url" value="${drupal.db.url}"/>
             <option name="site-name" value="${phing.project.name}"/>
             <param>${drupal.profile.name}</param>
+            <param>--quiet</param>
         </drush>
     </target>
 
@@ -101,6 +102,7 @@
     <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
         <drush command="pm-enable" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}">
             <param>calculator</param>
+            <param>--quiet</param>
         </drush>
     </target>
 
