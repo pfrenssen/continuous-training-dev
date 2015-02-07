@@ -470,12 +470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/continuousphp/drupal-base-build.git",
-                "reference": "f49a47ebd4e11bffbf2444259a51e03b22099bfb"
+                "reference": "76eb005c923942a6bd8e351b3cd22b1fa13b50ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/continuousphp/drupal-base-build/zipball/f49a47ebd4e11bffbf2444259a51e03b22099bfb",
-                "reference": "f49a47ebd4e11bffbf2444259a51e03b22099bfb",
+                "url": "https://api.github.com/repos/continuousphp/drupal-base-build/zipball/76eb005c923942a6bd8e351b3cd22b1fa13b50ee",
+                "reference": "76eb005c923942a6bd8e351b3cd22b1fa13b50ee",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
             ],
             "description": "Drupal base Phing build for continuousphp",
             "homepage": "https://github.com/continuousphp/drupal-base-build",
-            "time": "2015-02-07 13:42:11"
+            "time": "2015-02-07 16:47:57"
         },
         {
             "name": "continuousphp/phing-drush-task",
