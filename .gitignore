@@ -1,7 +1,10 @@
 /bin
 /build
 /vendor
+/resources
 config.local
 .idea
 build.properties.dist
 distro.make
+Berksfile*
+Vagrantfile
