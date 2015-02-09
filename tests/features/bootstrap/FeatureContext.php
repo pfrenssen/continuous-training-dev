@@ -13,14 +13,5 @@ use Behat\Behat\Context\SnippetAcceptingContext;
  */
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
-  /**
-   * Visit the calculator page.
-   *
-   * @Given I am on the calculator page
-   */
-  public function iAmOnTheCalculatorPage() {
-    $path = 'calculator';
-    $this->getSession()->visit($this->locatePath($path));
-  }
 
 }

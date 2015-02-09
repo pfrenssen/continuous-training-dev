@@ -4,6 +4,7 @@
 /resources
 config.local
 .idea
+.vagrant
 build.properties.dist
 distro.make
 Berksfile*
