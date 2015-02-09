@@ -48,7 +48,7 @@ function calculator_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => $title,
       '#description' => t('Please enter your number.'),
-      '#required' => FALSE,
+      '#required' => TRUE,
       '#size' => 10,
       '#maxlength' => 10,
     );
@@ -82,7 +82,7 @@ function calculator_form($form, &$form_state) {
 function calculator_form_addition_submit($form, &$form_state) {
   $result = array_sum(calculator_form_get_values($form_state));
 
-  calculator_output_result($result);
+  // calculator_output_result($result);
 }
 
 /**
@@ -93,7 +93,7 @@ function calculator_form_addition_submit($form, &$form_state) {
 function calculator_form_multiplication_submit($form, &$form_state) {
   $result = array_product(calculator_form_get_values($form_state));
 
-  calculator_output_result($result);
+  // calculator_output_result($result);
 }
 
 /**
@@ -109,7 +109,7 @@ function calculator_form_division_submit($form, &$form_state) {
     return $carry / $item;
   }, $first_value);
 
-  calculator_output_result($result);
+  // calculator_output_result($result);
 }
 
 /**
@@ -125,7 +125,7 @@ function calculator_form_subtraction_submit($form, &$form_state) {
     return $carry - $item;
   }, $first_value);
 
-  calculator_output_result($result);
+  // calculator_output_result( $result );
 }
 
 /**
@@ -137,7 +137,7 @@ function calculator_form_validate($form, &$form_state) {
   // Check that the values are numeric.
   foreach ($values as $key => $value) {
     if (!empty($value) && !is_numeric($value)) {
-      form_set_error('values][' . $key, 'Only enter numeric values.');
+      // form_set_error('values]['.$key, 'Only enter numeric values.');
     }
   }
 
@@ -148,7 +148,7 @@ function calculator_form_validate($form, &$form_state) {
     array_shift($values);
     foreach ($values as $key => $value) {
       if (!$value) {
-        form_set_error('values][' . $key, 'Division by zero is not allowed.');
+        // form_set_error('values]['.$key, 'Division by zero is not allowed.');
       }
     }
   }
@@ -174,6 +174,6 @@ function calculator_form_get_values(array $form_state) {
  *   The result of the calculation that should be printed out.
  */
 function calculator_output_result($result) {
-  $result = round($result, 2);
+  // $result = round($result,2);
   drupal_set_message(t('The result is @result', array('@result' => $result)));
 }
